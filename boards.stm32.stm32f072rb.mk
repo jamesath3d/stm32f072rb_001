@@ -4,6 +4,13 @@
 
 LFLAGS_STM32=$(LFLAGS) template_stm32.c -T ld.stm32.basic
 
+#arm-none-eabi-gcc -DRCC_LED1=RCC_GPIOA -DPORT_LED1=GPIOA -DPIN_LED1=GPIO5   \
+--static -nostartfiles -std=c11 -g3 -Os -fno-common -ffunction-sections -fdata-sections  \
+-I./libopencm3/include -L./libopencm3/lib -mcpu=cortex-m0 -mthumb  \
+-msoft-float -DSTM32F0 -DLITTLE_BIT=100000  \
+-Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group template_stm32.c -T ld.stm32.basic  \
+-lopencm3_stm32f0 -o bin/stm32/nucleo-f072rb.elf
+
 # STM32F0 starts up with HSI at 8Mhz
 STM32F0_CFLAGS=$(M0_FLAGS) -DSTM32F0 -DLITTLE_BIT=100000 $(LFLAGS_STM32) -lopencm3_stm32f0
 # STM32F1 starts up with HSI at 8Mhz
@@ -96,84 +103,3 @@ $(eval $(call stm32f0board,nucleo-f072rb,GPIOA,GPIO5))
 #arm-none-eabi-objcopy -Oihex bin/stm32/nucleo-f072rb.elf bin/stm32/nucleo-f072rb.hex
 
 
-#$(eval $(call stm32f0board,nucleo-f091rc,GPIOA,GPIO5))
-
-# STM32F1 boards
-#$(eval $(call stm32f1board,stm32vldiscovery,GPIOC,GPIO8))
-#$(eval $(call stm32f1board,olimex-h103,GPIOC,GPIO12))
-#$(eval $(call stm32f1board,olimex-h107,GPIOC,GPIO6))
-#$(eval $(call stm32f1board,blackpill,GPIOB,GPIO12))
-#$(eval $(call stm32f1board,bluepill,GPIOC,GPIO13))
-#$(eval $(call stm32f1board,nucleo-f103rb,GPIOA,GPIO5))
-#$(eval $(call stm32f1board,lisa-m-1,GPIOC,GPIO13))
-#$(eval $(call stm32f1board,lisa-m-2,GPIOA,GPIO8))
-#$(eval $(call stm32f1board,st-mb525,GPIOC,GPIO6))
-#$(eval $(call stm32f1board,obldc,GPIOA,GPIO6))
-#$(eval $(call stm32f1board,obldc-strip,GPIOB,GPIO4))
-#$(eval $(call stm32f1board,leaflabs-maple,GPIOA,GPIO5))
-#$(eval $(call stm32f1board,waveshare-open103r,GPIOC,GPIO9))
-#$(eval $(call stm32f1board,olimex-p103,GPIOC,GPIO12))
-
-# STM32F2 boards
-#$(eval $(call stm32f2board,jobygps,GPIOC,GPIO3))
-
-# STM32F3 boards
-#$(eval $(call stm32f3board,stm32f3-discovery,GPIOE,GPIO8,GPIOE,GPIO10))
-#$(eval $(call stm32f3board,nucleo-f302r8,GPIOB,GPIO13))
-#$(eval $(call stm32f3board,nucleo-f303k8,GPIOB,GPIO3))
-#$(eval $(call stm32f3board,nucleo-f303re,GPIOA,GPIO5))
-#$(eval $(call stm32f3board,nucleo-f334r8,GPIOA,GPIO5))
-
-# STM32F4 boards
-# New product code for original f4 discovery board.
-#$(eval $(call stm32f4board,stm32f407g-disc1,GPIOD,GPIO12))
-#$(eval $(call stm32f4board,stm32f4discover,GPIOD,GPIO12))
-#$(eval $(call stm32f4board,nucleo-f411re,GPIOA,GPIO5))
-#$(eval $(call stm32f4board,nucleo-f401re,GPIOA,GPIO5))
-#$(eval $(call stm32f4board,stm32f429i-disc1,GPIOG,GPIO13))
-#$(eval $(call stm32f4board,nucleo-f429zi,GPIOB,GPIO7))
-#$(eval $(call stm32f4board,nucleo-f410rb,GPIOA,GPIO5))
-#$(eval $(call stm32f4board,nucleo-f446re,GPIOA,GPIO5))
-#$(eval $(call stm32f4board,olimex-h405,GPIOC,GPIO12))
-#$(eval $(call stm32f4board,olimex-p405,GPIOC,GPIO12))
-#$(eval $(call stm32f4board,olimex-e407,GPIOC,GPIO13))
-#$(eval $(call stm32f4board,black-stm32f407ve-v2.0,GPIOA,GPIO6))
-#$(eval $(call stm32f4board,devebox-stm32f407vgt6,GPIOA,GPIO1))
-#$(eval $(call stm32f4board,weact-studio-minif4x1,GPIOC,GPIO13))
-
-# STM32F7 boards
-#$(eval $(call stm32f7board,stm32f746g-disco,GPIOI,GPIO1))
-#$(eval $(call stm32f7board,stm32f769i-disco,GPIOJ,GPIO13))
-#$(eval $(call stm32f7board,nucleo-f767zi,GPIOB,GPIO0))
-
-# STM32L0 boards
-#$(eval $(call stm32l0board,stm32l0538-disco,GPIOB,GPIO4))
-#$(eval $(call stm32l0board,nucleo-l053r8,GPIOA,GPIO5))
-#$(eval $(call stm32l0board,nucleo-l073rz,GPIOA,GPIO5))
-#$(eval $(call stm32l0board,nucleo-l011k4,GPIOB,GPIO3))
-#$(eval $(call stm32l0board,nucleo-l031k6,GPIOB,GPIO3))
-
-# STM32L1 boards
-# New product code for original l1 discovery
-#$(eval $(call stm32l1board,32l152cdiscovery,GPIOB,GPIO6))
-#$(eval $(call stm32l1board,stm32l-discovery,GPIOB,GPIO6))
-#$(eval $(call stm32l1board,nucleo-l152re,GPIOA,GPIO5))
-#$(eval $(call stm32l1board,32l100cdiscovery,GPIOB,GPIO6))
-
-# STM32L4 boards
-#$(eval $(call stm32l4board,stm32l476g-disco,GPIOE,GPIO8))
-#$(eval $(call stm32l4board,nucleo-stm32l432kc,GPIOB,GPIO3))
-#$(eval $(call stm32l4board,nucleo-stm32l452re,GPIOA,GPIO5))
-#$(eval $(call stm32l4board,nucleo-stm32l476rg,GPIOA,GPIO5))
-#$(eval $(call stm32l4board,nucleo-l4r5zi,GPIOC,GPIO7,GPIOB,GPIO7))
-
-# STM32G0 boards
-#$(eval $(call stm32g0board,nucleo-g071rb,GPIOA,GPIO5))
-#$(eval $(call stm32g0board,stm32g0316-disco,GPIOA,GPIO12))
-
-# STM32G4 boards
-#$(eval $(call stm32g4board,nucleo-g431rb,GPIOA,GPIO5))
-#$(eval $(call stm32g4board,nucleo-g491re,GPIOA,GPIO5))
-
-# STM32H7 boards
-#$(eval $(call stm32h7board,stm32h743zi,GPIOB,GPIO0,GPIOE,GPIO1))
