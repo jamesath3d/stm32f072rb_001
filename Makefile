@@ -9,7 +9,24 @@ CC=$(PREFIX)gcc
 OBJCOPY=$(PREFIX)objcopy
 OD=bin
 
-all: realall.really
+b:=build
+f:=flash
+
+allX:=b f
+all: 
+	@$(foreach aa1,$(allX),@echo "$(aa1) --> $($(aa1))"$(EOL))
+b $(b): 
+	make V=1 realall.really
+#f_cfg:=interface/stlink-v2-1.cfg
+f_cfg:=interface/stlink.cfg
+f $(f): bin/stm32/nucleo-f072rb.elf
+	openocd \
+		-f $(f_cfg) \
+		-f target/stm32f0x.cfg \
+		-c "program $<  \
+		verify  \
+		reset \
+		exit"
 
 SFLAGS= --static -nostartfiles -std=c11 -g3 -Os
 SFLAGS+= -fno-common -ffunction-sections -fdata-sections
@@ -57,6 +74,8 @@ outdir:
 c : clean
 m:
 	vim Makefile
+v:
+	vim template_stm32.c
 gs:
 	git status
 gc:
