@@ -75,7 +75,8 @@ c : clean
 m:
 	vim Makefile
 v:
-	vim template_stm32.c
+#	vim template_stm32.c
+	vim dyn_stm32.c
 gs:
 	git status
 gc:

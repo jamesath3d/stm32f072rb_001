@@ -2,7 +2,8 @@
 # 1) add a rule for your board to the bottom of this file
 # 2) profit!
 
-LFLAGS_STM32=$(LFLAGS) template_stm32.c -T ld.stm32.basic
+#LFLAGS_STM32=$(LFLAGS) template_stm32.c -T ld.stm32.basic
+LFLAGS_STM32=$(LFLAGS) dyn_stm32.c -T ld.stm32.basic
 
 #arm-none-eabi-gcc -DRCC_LED1=RCC_GPIOA -DPORT_LED1=GPIOA -DPIN_LED1=GPIO5   \
 --static -nostartfiles -std=c11 -g3 -Os -fno-common -ffunction-sections -fdata-sections  \
@@ -46,7 +47,8 @@ define MakeBoard
 BOARDS_ELF+=$(OD)/stm32/$(1).elf
 BOARDS_BIN+=$(OD)/stm32/$(1).bin
 BOARDS_HEX+=$(OD)/stm32/$(1).hex
-$(OD)/stm32/$(1).elf: template_stm32.c libopencm3/lib/libopencm3_$(5).a
+#$(OD)/stm32/$(1).elf: template_stm32.c libopencm3/lib/libopencm3_$(5).a
+$(OD)/stm32/$(1).elf: dyn_stm32.c libopencm3/lib/libopencm3_$(5).a
 	@echo "  $(5) -> Creating $(OD)/stm32/$(1).elf"
 	$(call RAWMakeBoard,$(2),$(3),$(4),$(1).elf,$(6),$(7))
 endef
